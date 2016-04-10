@@ -1,0 +1,6 @@
+﻿.main-shell {    .profile-container {        height: 100%;        font-size: 14px;        .profile-name {            font-weight: 500;        }    }    md-input-container:not(.md-input-invalid) .md-input {
+        border-bottom-color: rgba(255, 255, 255, 20);
+    }    md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+        border-bottom-color: rgba(255, 255, 255, 60);
+    }    md-badge {        margin: 0px 0px 0px -12px;        background-color: red;        color: white;        padding: 2px 4px;        border-radius: 25%;        height: 18px;        vertical-align: middle;        font-size: .7em;        text-align: center;        z-index: 1000;    }}
+
