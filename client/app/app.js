@@ -8,7 +8,8 @@ angular.module('musicManApp', [
   'ngMessages',
   'btford.socket-io',
   'ui.router',
-  'ngMaterial'
+  'ngMaterial',
+  'ngAudio'
 ])
   .config(function($mdIconProvider) {
     $mdIconProvider
