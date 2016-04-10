@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/musicman-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };
