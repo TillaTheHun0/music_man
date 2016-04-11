@@ -1,31 +1,3 @@
-<style>
-.percent {
-    position: absolute;
-    width: 300px;
-    height: 14px;
-    z-index: 1;
-    text-align: center;
-    font-size: 0.8em;
-    color: white;
-}
-
-.progress-bar {
-    width: 300px;
-    height: 14px;
-    border-radius: 10px;
-    border: 1px solid #CCC;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#6666cc), to(#4b4b95));
-    border-image: initial;
-}
-
-.uploaded {
-    padding: 0;
-    height: 14px;
-    border-radius: 10px;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#66cc00), to(#4b9500));
-    border-image: initial;
-}
-</style>
 <div ng-controller="ShellCtrl" class="main-shell">
   <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
 
@@ -41,11 +13,7 @@
     <!-- Left Menu -->
     <md-content>
       <!-- Upload file section -->
-      <!-- <div>
-          <input type="file" file-model="myFile"/>
-          <button class="md-button md-raised md-primary" ng-click="uploadFile()">Upload</button>
-      </div> -->
-      <!-- <div>
+      <div>
           <div class="row">
               <label for="fileToUpload">Select a File to Upload</label>
               <br />
@@ -60,14 +28,8 @@
                   </span>)
               </div>
               <input class="md-button md-raised md-primary" type="button" value="Upload" ng-click="uploadFile()" />
-              <div ng-show="progressVisible">
-                  <div class="percent">{{progress}}%</div>
-                  <div class="progress-bar">
-                      <div class="uploaded" ng-style="{'width': progress+'%'}"></div>
-                  </div>
-              </div>
           </div>
-      </div> -->
+      </div>
       <!-- End file section -->
       
       <section layout-padding layout="column">
@@ -141,7 +103,6 @@
         </md-list>
       </section>
     </md-content>
-  
   </md-sidenav>
   
   <!-- Top Menu Bar -->
