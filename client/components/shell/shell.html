@@ -27,107 +27,221 @@
 }
 </style>
 <div ng-controller="ShellCtrl" class="main-shell">
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
-        <md-toolbar class="md-tall md-accent">
-            <div ng-if="isLoggedIn()" layout="column" layout-padding class="profile-container">
-                <div flex></div>
-                <div layout-padding layout="column">
-                    <div class="profile-name">{{ getCurrentUser().name }}</div>
-                    <div class="profile-email">{{ getCurrentUser().email }}</div>
-                </div>
-            </div>
-        </md-toolbar>
-        <!-- Upload file section -->
-        <!-- <div>
-            <input type="file" file-model="myFile"/>
-            <button class="md-button md-raised md-primary" ng-click="uploadFile()">Upload</button>
-        </div> -->
-        <md-content layout-padding>
-            <div>
-                <div class="row">
-                    <label for="fileToUpload">Select a File to Upload</label>
-                    <br />
-                    <input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />
-                </div>
-                <div ng-show="files.length">
-                    <div ng-repeat="file in files.slice(0)">
-                        <span>{{file.webkitRelativePath || file.name}}</span> (
-                        <span ng-switch="file.size > 1024*1024">
-                            <span ng-switch-when="true">{{file.size / 1024 / 1024 | number:2}} MB</span>
-                        <span ng-switch-default>{{file.size / 1024 | number:2}} kB</span>
-                        </span>)
-                    </div>
-                    <input class="md-button md-raised md-primary" type="button" value="Upload" ng-click="uploadFile()" />
-                    <div ng-show="progressVisible">
-                        <div class="percent">{{progress}}%</div>
-                        <div class="progress-bar">
-                            <div class="uploaded" ng-style="{'width': progress+'%'}"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </md-content>
-        <!-- End file section -->
-    </md-sidenav>
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <md-button ng-click="toggleLeft()" class="md-icon-button" aria-label="Settings">
-                <md-icon md-svg-icon="assets/icons/menu.svg"></md-icon>
-            </md-button>
-            <h2>
-          <span>music-man</span>
-        </h2>
-            <span flex=""></span>
-            <md-menu>
-                <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
-                    <md-icon md-menu-origin md-svg-icon="assets/icons/dots-vertical.svg"></md-icon>
-                </md-button>
-                <md-menu-content width="4">
-                    <md-menu-item>
-                        <md-button ng-click="showAddDialog($event)">
-                            <md-icon md-svg-icon="content:add" md-menu-align-target></md-icon>
-                            Add
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="redial($event)">
-                            <md-icon md-svg-icon="communication:dialpad" md-menu-align-target></md-icon>
-                            Redial
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button disabled="disabled" ng-click="checkVoicemail()">
-                            <md-icon md-svg-icon="communication:voicemail"></md-icon>
-                            Check voicemail
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="toggleNotifications()">
-                            <md-icon md-svg-icon="social:notifications{{notificationsEnabled ? '_off' : ''}}"></md-icon>
-                            {{notificationsEnabled ? 'Disable' : 'Enable' }} notifications
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-divider></md-menu-divider>
-                    <md-menu-item ng-hide="isLoggedIn()" ui-sref="login">
-                        <md-button>
-                            <md-icon md-svg-icon="action:input"></md-icon>
-                            Login
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item ng-hide="isLoggedIn()" ui-sref="signup">
-                        <md-button>
-                            <md-icon md-svg-icon="action:launch"></md-icon>
-                            Signup
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item ng-show="isLoggedIn()">
-                        <md-button ng-click="logout()">
-                            <md-icon md-svg-icon="action:exit_to_app"></md-icon>
-                            Logout
-                        </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
+  <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+
+    <md-toolbar class="md-accent">
+      <div layout="column" layout-padding class="profile-container">
+        <div flex></div>
+        <div layout-padding layout="column">
+          <div class="profile-name">{{ isLoggedIn() ? getCurrentUser().name : 'Not logged in' }}</div>
         </div>
+      </div>
     </md-toolbar>
+    
+    <!-- Left Menu -->
+    <md-content>
+      <!-- Upload file section -->
+      <!-- <div>
+          <input type="file" file-model="myFile"/>
+          <button class="md-button md-raised md-primary" ng-click="uploadFile()">Upload</button>
+      </div> -->
+      <!-- <div>
+          <div class="row">
+              <label for="fileToUpload">Select a File to Upload</label>
+              <br />
+              <input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />
+          </div>
+          <div ng-show="files.length">
+              <div ng-repeat="file in files.slice(0)">
+                  <span>{{file.webkitRelativePath || file.name}}</span> (
+                  <span ng-switch="file.size > 1024*1024">
+                      <span ng-switch-when="true">{{file.size / 1024 / 1024 | number:2}} MB</span>
+                  <span ng-switch-default>{{file.size / 1024 | number:2}} kB</span>
+                  </span>)
+              </div>
+              <input class="md-button md-raised md-primary" type="button" value="Upload" ng-click="uploadFile()" />
+              <div ng-show="progressVisible">
+                  <div class="percent">{{progress}}%</div>
+                  <div class="progress-bar">
+                      <div class="uploaded" ng-style="{'width': progress+'%'}"></div>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+      <!-- End file section -->
+      
+      <section layout-padding layout="column">
+        <md-list>
+          <md-list-item>
+            <md-button class="md-button" ui-sref="home">
+              <md-icon md-font-icon>home</md-icon>
+              Home
+            </md-button>
+          </md-list-item>
+
+          <md-list-item ng-show="isLoggedIn()">
+            <md-button class="md-button" ui-sref="tracks">
+              <md-icon md-font-icon>folder_open</md-icon>
+              My Tracks
+            </md-button>
+          </md-list-item>
+
+          <md-list-item ng-show="isLoggedIn()">
+            <md-button class="md-button" ui-sref="songs">
+              <md-icon md-font-icon>queue_music</md-icon>
+              My Songs
+            </md-button>
+          </md-list-item>
+
+          <md-list-item ng-show="isLoggedIn()">
+            <md-button class="md-button" ui-sref="discography">
+              <md-icon md-font-icon>album</md-icon>
+              My Discography
+            </md-button>
+          </md-list-item>
+
+          <md-divider></md-divider>
+
+          <h5 ng-show="isLoggedIn()">Libraries</h5>
+          <md-list-item ng-show="isLoggedIn()" ng-repeat="library in libraries | limitTo: 3">
+            <md-button class="md-button" ng-click="openLibrary(library)">
+              <md-icon md-font-icon>library_music</md-icon>
+              {{ library.name }}
+            </md-button>
+          </md-list-item>
+          <md-list-item ng-show="isLoggedIn() && libraries.length > 3">
+            <md-button class="md-primary" ui-sref="libraries">
+              Show more...
+            </md-button>
+          </md-list-item>
+
+          <md-divider></md-divider>
+
+          <h5 ng-show="isLoggedIn()">Collaborations</h5>
+          <md-list-item ng-show="isLoggedIn()" ng-repeat="collab in collaborations | limitTo: 3">
+            <md-button class="md-button" ng-click="openCollaboration(library)">
+              <md-icon md-font-icon>people</md-icon>
+              {{ collab.name }}
+            </md-button>
+          </md-list-item>
+          <md-list-item ng-show="isLoggedIn() && collaborations.length > 3">
+            <md-button class="md-primary" ui-sref="collaborations">
+              Show more...
+            </md-button>
+          </md-list-item>
+
+          <md-divider></md-divider>
+
+          <md-list-item>
+            <md-button class="md-button" ui-sref="browse">
+              <md-icon md-font-icon>visibility</md-icon>
+              Browse
+            </md-button>
+          </md-list-item>
+        </md-list>
+      </section>
+    </md-content>
+  
+  </md-sidenav>
+  
+  <!-- Top Menu Bar -->
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      
+      <md-button ng-click="toggleLeft()" class="md-icon-button" aria-label="Settings">
+        <md-icon md-font-icon>menu</md-icon>
+      </md-button>
+      <h2>
+        <a href="/"><span>muglu.io</span></a>
+      </h2>
+      
+      <span flex=""></span>
+      
+      <div layout="row" layout-align="start center" flex-gt-sm>
+        <md-icon md-font-icon style="margin-right: 8px;">search</md-icon>
+        <md-input-container flex>
+          <label>&nbsp;</label>
+          <input ng-model="search.terms" style="color: white; margin-top: 20px;" placeholder="search">
+        </md-input-container>
+      </div>
+     
+      <span flex></span>
+
+      <!-- not logged in -->
+      <md-button ng-hide="isLoggedIn()" ui-sref="signup">
+        <md-icon md-font-icon>launch</md-icon>
+        Signup
+      </md-button>
+            
+      <md-button ng-hide="isLoggedIn()" ui-sref="login">
+        <md-icon md-font-icon>input</md-icon> Login
+      </md-button>
+      
+      <!-- logged in -->
+      <md-button ng-show="isLoggedIn()" class="md-icon-button">
+        <md-icon md-font-icon>library_music</md-icon>
+      </md-button>
+
+      <md-button ng-show="isLoggedIn()" class="md-icon-button" ng-click="showUpload()">
+        <md-icon md-font-icon>cloud_upload</md-icon>
+      </md-button>
+
+      <div layout="row" ng-show="isLoggedIn()">
+        <md-menu>
+          <md-button class="md-icon-button" aria-label="{{newNotifications.length}} notifications" ng-click="openMenu($mdOpenMenu, $event)">
+            <md-icon md-font-icon>{{ newNotifications.length == 0 ? 'notifications' : 'notifications_active' }}</md-icon>
+            <md-badge>{{newNotifications.length}}</md-badge>
+          </md-button>
+
+          <md-menu-content width="6">
+            <md-menu-item ng-repeat="notif in newNotifications | limitTo: 3">
+              <md-button ng-click="showNotification(notif.id)">
+                {{notif.title}}
+              </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+              <md-button class="md-primary" ui-sref="notifications">
+                Show All
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+        
+      </div>      
+
+      <md-menu ng-show="isLoggedIn()">
+        
+        <md-button aria-label="Open user menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+           <md-icon md-font-icon>account_circle</md-icon>
+        </md-button>
+        
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button ui-sref="profile">
+              <md-icon md-font-icon md-menu-align-target>person</md-icon>
+              Profile
+            </md-button>
+          </md-menu-item>
+
+          <md-menu-item>
+            <md-button ui-sref="settings">
+              <md-icon md-font-icon md-menu-align-target>settings</md-icon>
+              Account Settings
+            </md-button>
+          </md-menu-item>
+
+          <md-menu-divider></md-menu-divider>
+          
+          <md-menu-item>
+            <md-button ng-click="logout()">
+              <md-icon md-svg-icon="action:exit_to_app"></md-icon>
+              Logout
+            </md-button>
+          </md-menu-item>
+
+        </md-menu-content>
+      </md-menu>
+    </div>
+  </md-toolbar>
 </div>
