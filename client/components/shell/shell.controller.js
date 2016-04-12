@@ -92,17 +92,44 @@ angular.module('musicManApp').controller('ShellCtrl', function($mdSidenav, $mdDi
         $scope.$apply(function(scope) {
             console.log('files:', element.files);
             // Turn the FileList object into an Array
-            scope.files = []
+            scope.files = [];
             for (var i = 0; i < element.files.length; i++) {
-                scope.files.push(element.files[i])
+                scope.files.push(element.files[i]);
             }
         });
     };
 
     $scope.uploadFile = function() {
-        var fd = new FormData()
+        var reader = new FileReader();
+        var rawData;
         for (var i in $scope.files) {
-            $http.post('/api/things', { fileName: $scope.files[i].name, fileType: $scope.files[i].type, fileLength: $scope.files[i].size });
+            console.log($scope.files[i]);
+            
+            reader.readAsDataURL($scope.files[i]);
+            reader.onload = function(e) {
+                // need to split the rawData below
+                // this is also async so it can take a minute to upload
+                rawData = reader.result;
+
+                $http.post('/api/things', { fileName: $scope.files[i].name, fileData: rawData, fileType: $scope.files[i].type, fileLength: $scope.files[i].size });
+            }
+
+            // mongoose.connection.once('open', function () {
+            //     console.log('open');
+            //     var gfs = Grid(mongoose.connection.db);
+
+            //     // streaming to gridfs
+            //     //filename to store in mongodb
+            //     var writestream = gfs.createWriteStream({
+            //         filename: 'mongo_file.txt'
+            //     });
+            //     fs.createReadStream('/Users/Tyager/Music/iTunes/iTunes Media/Music/Atreyu/The Curse/01 Blood Children (An Introduction).mp3').pipe(writestream);
+
+            //     writestream.on('close', function (file) {
+            //         // do something with `file`
+            //         console.log(file.filename + 'Written To DB');
+            //     });
+            // });
         }
     }
 });
