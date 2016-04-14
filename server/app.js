@@ -21,6 +21,11 @@ mongoose.connection.on('error', function(err) {
 // Populate DB with sample data
 if(config.seedDB) { require('./config/seed'); }
 
+var fs = require('fs');
+ 
+var Grid = require('gridfs-stream');
+Grid.mongo = mongoose.mongo;
+
 // Setup server
 var app = express();
 var server = require('http').createServer(app);

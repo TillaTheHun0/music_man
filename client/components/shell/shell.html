@@ -12,9 +12,28 @@
     
     <!-- Left Menu -->
     <md-content>
+      <!-- Upload file section -->
+      <div>
+          <div class="row">
+              <label for="fileToUpload">Select a File to Upload</label>
+              <br />
+              <input type="file" ng-model-instant id="fileToUpload" multiple onchange="angular.element(this).scope().setFiles(this)" />
+          </div>
+          <div ng-show="files.length">
+              <div ng-repeat="file in files.slice(0)">
+                  <span>{{file.webkitRelativePath || file.name}}</span> (
+                  <span ng-switch="file.size > 1024*1024">
+                      <span ng-switch-when="true">{{file.size / 1024 / 1024 | number:2}} MB</span>
+                  <span ng-switch-default>{{file.size / 1024 | number:2}} kB</span>
+                  </span>)
+              </div>
+              <input class="md-button md-raised md-primary" type="button" value="Upload" ng-click="uploadFile()" />
+          </div>
+      </div>
+      <!-- End file section -->
+      
       <section layout-padding layout="column">
         <md-list>
-
           <md-list-item>
             <md-button class="md-button" ui-sref="home">
               <md-icon md-font-icon>home</md-icon>
@@ -84,7 +103,6 @@
         </md-list>
       </section>
     </md-content>
-  
   </md-sidenav>
   
   <!-- Top Menu Bar -->
